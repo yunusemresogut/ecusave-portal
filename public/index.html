@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <script>
+      var hostUrl = "/portal";
+    </script>
+    <base href="/portal" />
+    <!-- /ecu ya da /portal -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+    />
+    <link
+      href="<%= BASE_URL %>_assets/plugins/custom/fullcalendar/fullcalendar.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="<%= BASE_URL %>_assets/plugins/custom/datatables/datatables.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="<%= BASE_URL %>_assets/plugins/global/plugins.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="<%= BASE_URL %>_assets/plugins/global/plugins.dark.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+    id="theme-light"
+      href="<%= BASE_URL %>_assets/css/style.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+    id="theme-dark"
+      href="<%= BASE_URL %>_assets/css/style.dark.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="<%= BASE_URL %>_assets/css/loading.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- <script src="//code.jivosite.com/widget/JnwJIhy8mD" async></script> -->
+  </head>
+  <body
+    id="kt_body"
+    class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed theme-light"
+  >
+    <noscript>
+      <strong>
+        We're sorry but doesn't work properly without JavaScript enabled. Please
+        enable it to continue.
+      </strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- <script>var hostUrl = "assets/";</script> -->
+    <script src="<%= BASE_URL %>_assets/plugins/global/plugins.bundle.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/scripts.bundle.js"></script>
+    <script src="<%= BASE_URL %>_assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="<%= BASE_URL %>_assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/widgets.bundle.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/custom/widgets.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/custom/apps/chat/chat.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+    <!-- <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/create-campaign.js"></script> -->
+    <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/users-search.js"></script>
+    <!-- <script src="<%= BASE_URL %>_assets/js/custom/authentication/sign-in/general.js"></script>
+		<script src="<%= BASE_URL %>_assets/js/custom/authentication/sign-up/general.js"></script> -->
+    <script src="<%= BASE_URL %>_assets/plugins/custom/fslightbox/fslightbox.bundle.js"></script>
+
+    <!-- <script>
+			if(window.location.pathname=='/pricing'){
+			var s = document.createElement("script");
+			s.type = "text/javascript";
+			s.src = "<%= BASE_URL %>_assets/js/custom/pages/pricing/general.js";
+			$("head").append(s);
+			}
+			if(window.location.pathname=='/register'){
+			var s = document.createElement("script");
+			s.type = "text/javascript";
+			s.src = "<%= BASE_URL %>_assets/js/custom/authentication/sign-up/general.js";
+			$("head").append(s);
+			}
+			if(window.location.pathname=='/login'){
+			var s = document.createElement("script");
+			s.type = "text/javascript";
+			s.src = "<%= BASE_URL %>_assets/js/custom/authentication/sign-in/general.js";
+			$("head").append(s);
+			}
+		</script> -->
+    <!-- <script src="<%= BASE_URL %>_assets/js/custom/pages/pricing/general.js"></script> -->
+    <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/offer-a-deal/type.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/offer-a-deal/details.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/offer-a-deal/finance.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/offer-a-deal/complete.js"></script>
+    <script src="<%= BASE_URL %>_assets/js/custom/utilities/modals/offer-a-deal/main.js"></script>
+    <!-- <script>
+      const theme = localStorage.getItem("theme");
+	  /* dark or light */
+      if (theme === "light") {
+        document.write(`
+    <link href="_assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
+    <link href="_assets/css/style.bundle.css" rel="stylesheet" />
+  `);
+      }
+    </script> -->
+    <script>
+      $("base").attr("href", window.location.origin);
+    </script>
+  </body>
+</html>

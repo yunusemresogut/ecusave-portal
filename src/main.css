@@ -1,0 +1,11 @@
+.text-muted {
+    color: #8888a6 !important;
+}
+
+.vs__dropdown-toggle {
+  height: 42.95px !important;
+}
+
+body {
+  transition: none !important;
+}
