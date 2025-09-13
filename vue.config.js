@@ -7,5 +7,5 @@ module.exports = defineConfig({
   // devServer: {
   //   server: 'https',
   // },
-  outputDir: path.resolve(__dirname, "../portal"),
+  // outputDir: path.resolve(__dirname, "../portal"),
 })
