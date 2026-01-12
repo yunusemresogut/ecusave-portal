@@ -9,3 +9,39 @@
 body {
   transition: none !important;
 }
+
+/* dark mode için vue3-select */
+body.dark-mode .v-select,
+body.dark-mode .vs__dropdown-toggle {
+  background-color: #1e1e2d !important; /* koyu arka plan */
+  color: #f8fafc !important;
+}
+
+body.dark-mode .vs__selected,
+body.dark-mode .vs__selected-options {
+  color: #f8fafc !important;
+}
+
+body.dark-mode .vs__dropdown-menu {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .vs__dropdown-menu li:hover {
+  background-color: #1e1e2d !important;
+}
+
+#theme-black-overlay {
+  position: fixed;
+  inset: 0;
+  background: #1e1e2d;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 999999; /* her şeyin üstünde */
+}
+
+#theme-black-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}

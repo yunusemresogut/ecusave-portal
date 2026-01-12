@@ -10,8 +10,8 @@
           <router-link to="/register" class="mb-12">
             <img
               alt="Logo"
-              style="height: 212px"
-              src="../assets/media/icons/Logo-orjinal.png"
+              style="height: 80px"
+              src="../assets/media/ecusavebeyaz.png"
             />
           </router-link>
           <div
@@ -1013,8 +1013,10 @@ export default {
         })
         .then((response) => {
           if (response.data.code == 200) {
-            this.sehirlers = response.data.data.records;
-          }
+  this.sehirlers = response.data.data.records.sort((a, b) => {
+    return a.sehir_ad.localeCompare(b.sehir_ad, 'tr');
+  });
+}
         })
         .catch((err) => {
           console.log(err);

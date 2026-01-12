@@ -20,7 +20,7 @@
           >Ecusave</router-link
         >
       </div>
-      <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
+      <!-- <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
         <li class="menu-item">
           <a
             href="https://ecusave.com/hakkimizda.html"
@@ -45,7 +45,7 @@
             >Destek</a
           >
         </li>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </template>

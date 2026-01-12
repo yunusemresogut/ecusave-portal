@@ -553,7 +553,7 @@
                 </li>
                 <li
                   class="page-item"
-                  v-for="pg in tableData?.pages"
+                  v-for="pg in allRC.pages"
                   :key="pg"
                   @click="pages(pg)"
                   :class="pg == page ? 'active' : ''"
@@ -563,7 +563,7 @@
                 <li
                   class="page-item next"
                   @click="next"
-                  :class="page + 1 > tableData?.pages ? 'd-none' : ''"
+                  :class="page + 1 > 1 ? 'd-none' : ''"
                 >
                   <a class="page-link"><i class="next"></i></a>
                 </li>
@@ -821,6 +821,33 @@
                   </div>
                 </div>
               </div>
+              <div class="d-flex flex-row justify-content-around">
+              <ul class="pagination">
+                <li
+                  class="page-item previous"
+                  @click="prev2"
+                  :class="page2 - 1 < 1 ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="previous"></i></a>
+                </li>
+                <li
+                  class="page-item"
+                  v-for="pg in dataCount.pages"
+                  :key="pg"
+                  @click="pages2(pg)"
+                  :class="pg == page2 ? 'active' : ''"
+                >
+                  <a class="page-link">{{ pg }}</a>
+                </li>
+                <li
+                  class="page-item next"
+                  @click="next2"
+                  :class="page2 + 1 > dataCount.pages ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="next"></i></a>
+                </li>
+              </ul>
+            </div>
             </div>
 
             <div
@@ -973,6 +1000,33 @@
                   </div>
                 </div>
               </div>
+              <div class="d-flex flex-row justify-content-around">
+              <ul class="pagination">
+                <li
+                  class="page-item previous"
+                  @click="prev2"
+                  :class="page2 - 1 < 1 ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="previous"></i></a>
+                </li>
+                <li
+                  class="page-item"
+                  v-for="pg in dataCount.pages"
+                  :key="pg"
+                  @click="pages2(pg)"
+                  :class="pg == page2 ? 'active' : ''"
+                >
+                  <a class="page-link">{{ pg }}</a>
+                </li>
+                <li
+                  class="page-item next"
+                  @click="next2"
+                  :class="page2 + 1 > dataCount.pages ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="next"></i></a>
+                </li>
+              </ul>
+            </div>
             </div>
 
             <div
@@ -1125,6 +1179,33 @@
                   </div>
                 </div>
               </div>
+              <div class="d-flex flex-row justify-content-around">
+              <ul class="pagination">
+                <li
+                  class="page-item previous"
+                  @click="prev2"
+                  :class="page2 - 1 < 1 ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="previous"></i></a>
+                </li>
+                <li
+                  class="page-item"
+                  v-for="pg in dataCount.pages"
+                  :key="pg"
+                  @click="pages2(pg)"
+                  :class="pg == page2 ? 'active' : ''"
+                >
+                  <a class="page-link">{{ pg }}</a>
+                </li>
+                <li
+                  class="page-item next"
+                  @click="next2"
+                  :class="page2 + 1 > dataCount.pages ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="next"></i></a>
+                </li>
+              </ul>
+            </div>
             </div>
 
             <div
@@ -1270,6 +1351,33 @@
                   </div>
                 </div>
               </div>
+              <div class="d-flex flex-row justify-content-around">
+              <ul class="pagination">
+                <li
+                  class="page-item previous"
+                  @click="prev2"
+                  :class="page2 - 1 < 1 ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="previous"></i></a>
+                </li>
+                <li
+                  class="page-item"
+                  v-for="pg in dataCount.pages"
+                  :key="pg"
+                  @click="pages2(pg)"
+                  :class="pg == page2 ? 'active' : ''"
+                >
+                  <a class="page-link">{{ pg }}</a>
+                </li>
+                <li
+                  class="page-item next"
+                  @click="next2"
+                  :class="page2 + 1 > dataCount.pages ? 'd-none' : ''"
+                >
+                  <a class="page-link"><i class="next"></i></a>
+                </li>
+              </ul>
+            </div>
             </div>
           </div>
         </div>
@@ -1401,11 +1509,15 @@ export default {
       bakiye1: 0,
       bakiye_2: 0,
       bakiye_22: 0,
+      allRC: 0,
+      dataCount: 0,
       baseUrl: process.env.VUE_APP_BASE_UPLOADS,
       veriler: "...",
       veriler2: "...",
       page: 1,
       limit: 10,
+      page2: 1,
+      limit2: 1,
       formatter: new Intl.NumberFormat("tr-TR", {
         //style: 'currency',
         currency: "TRY",
@@ -1549,6 +1661,20 @@ export default {
       this.page = pg;
       this.getUserData();
     }, //Belirli sayfaya gönder
+
+    prev2() {
+      this.page2--;
+      this.getTableData();
+    }, //Bir önceki sayfaya gönder
+    next2() {
+      this.page2++;
+      this.getTableData();
+    }, //Bir sonraki sayfaya gönder
+    pages2(pg) {
+      this.page2 = pg;
+      this.getTableData();
+    }, //Belirli sayfaya gönder
+
     getBakiye() {
       axios
         .get(this.$store.getters.getToken + "/bakiye")
@@ -1663,6 +1789,7 @@ export default {
           params: JSON.stringify(params),
         })
         .then((response) => {
+          this.allRC = response.data.data;
           this.userInfo = response.data.data.records;
           this.forName = response.data.data.columns;
           // this.bakiye = this.userInfo[0].islem_sonrasi_kalan;
@@ -1720,8 +1847,8 @@ export default {
     getTableData(event) {
       this.loading = true;
       let params = {
-        page: 1,
-        limit: 1000000,
+        page: this.page2,
+        limit: this.limit2,
         column_array_id:
           this.$store.getters.getUserData.auths.tables["kayitlar"]?.lists[0],
         column_array_id_query:
@@ -1739,7 +1866,7 @@ export default {
         })
         .then((res) => {
           if (res.data.code == 200) {
-            this.dataCount = res.data.data.all_records_count;
+            this.dataCount = res.data.data
             this.tableData = res.data.data.records;
           }
         })

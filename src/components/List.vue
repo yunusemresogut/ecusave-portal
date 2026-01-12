@@ -119,7 +119,7 @@
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
                       <h5 class="card-title mb-0 text-primary">
-                        {{ tr.arac_marka_modeli_id || "Başlık Yok" }}
+                        <span class="text-muted">{{ tr.id }} - </span>{{ tr.arac_marka_modeli_id || "Başlık Yok" }}
                       </h5>
                       <small class="text-muted">
                         {{ tr.plaka || "Plaka Yok" }}

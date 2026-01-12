@@ -33,6 +33,42 @@
           </button>
         </div>
 
+        <div v-if="totalPages == 0">Detek talebi bulunamadı.</div>
+  <div v-else class="d-flex justify-content-between align-items-center mt-4">
+  <!-- Önceki butonu -->
+  <button
+    @click="changePage(currentPage - 1)"
+    :disabled="currentPage === 1"
+    class="btn btn-secondary btn-sm"
+  >
+    Önceki
+  </button>
+
+  <!-- Sayfa numaraları -->
+  <ul class="pagination pagination-sm mb-0">
+    <li
+      class="page-item"
+      v-for="page in totalPages"
+      :key="page"
+      :class="{ active: page === currentPage }"
+    >
+      <button class="page-link" @click="changePage(page)">
+        {{ page }}
+      </button>
+    </li>
+  </ul>
+
+  <!-- Sonraki butonu -->
+  <button
+    @click="changePage(currentPage + 1)"
+    :disabled="currentPage === totalPages"
+    class="btn btn-secondary btn-sm"
+  >
+    Sonraki
+  </button>
+</div>
+
+
         <!-- Yeni talep -->
         <button
           @click="selected = 'new'"
@@ -64,10 +100,12 @@
                   v-model="newTicket.baslik"
                   type="text"
                   class="form-control"
+                  placeholder="Konu Başlığı"
                   required
                 />
               </div>
               <div class="mb-3">
+                <label class="form-label">Destek Durumu</label>
                 <v-select
                   v-model="destek_durumu"
                   :options="destekdurumlar"
@@ -105,6 +143,7 @@
                   v-model="newTicket.mesaj"
                   class="form-control"
                   rows="4"
+                  placeholder="Mesajınızı yazın..."
                   required
                 ></textarea>
               </div>
@@ -232,7 +271,7 @@
 </template>
 
 <script>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import vSelect from "vue3-select";
@@ -253,6 +292,9 @@ export default {
     const destekDurumlar = ref([]);
     const fileProp = ref("");
     const baseUrl = process.env.VUE_APP_BASE_UPLOADS;
+    const totalRecords = ref(0);
+    const currentPage = ref(1); // şimdiki sayfa
+const perPage = 10; // her zaman 10 kayıt
 
     const loading = ref(false);
     const loading2 = ref(false);
@@ -263,8 +305,8 @@ export default {
     });
 
     const params = ref({
-      page: 1,
-      limit: 1000,
+      page: currentPage.value,
+      limit: perPage,
       sorts: {},
       filters: {},
       column_array_id:
@@ -275,7 +317,7 @@ export default {
 
     const params2 = ref({
       page: 1,
-      limit: 100,
+      limit: 1000,
       sorts: { id: true },
       filters: {},
       column_array_id:
@@ -283,6 +325,8 @@ export default {
       column_array_id_query:
         store.getters.getUserData.auths.tables["destek_mesaj"]?.queries[0],
     });
+
+     
 
     const fetchTickets = async () => {
       try {
@@ -294,12 +338,24 @@ export default {
           }
         );
         tickets.value = response.data.data.records;
+        totalRecords.value = response.data.data.all_records_count ?? 0;
       } catch (err) {
         console.error(err);
       } finally {
         loading.value = false;
       }
     };
+
+     const totalPages = computed(() =>
+  Math.ceil(totalRecords.value / perPage)
+);
+
+const changePage = (page) => {
+  if (page < 1 || page > totalPages.value) return;
+  currentPage.value = page;
+  params.value.page = currentPage.value;
+  fetchTickets();
+};
 
     const fetchMessages = async () => {
       if (!selected.value) return;
@@ -438,6 +494,11 @@ export default {
       fileProps,
       fileProp,
       baseUrl,
+      totalRecords,
+      currentPage,
+      perPage,
+      changePage,
+      totalPages
     };
   },
 };

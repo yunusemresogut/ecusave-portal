@@ -18,6 +18,7 @@
                 label="text"
                 :reduce="(bm) => bm.id"
                 placeholder="Beyin Markası Seçiniz"
+                
               />
               <div class="fv-plugins-message-container invalid-feedback">
                 {{ this.errorMessage["beyin_marka_id"]?.[0] }}
@@ -77,7 +78,7 @@
           <h3 class="text-primary mb-xl-8">Müşterinin Ruhsat Bilgileri</h3>
           <div class="row mb-xl-8">
             <div class="col-xl-3">
-              <label class="form-label">Ad</label>
+              <label class="form-label">Ad <span class="text-danger">*</span></label>
               <input
                 type="text"
                 v-model="name_basic"
@@ -90,7 +91,7 @@
               </div>
             </div>
             <div class="col-xl-3">
-              <label class="form-label">Soyad</label>
+              <label class="form-label">Soyad <span class="text-danger">*</span></label>
               <input
                 type="text"
                 v-model="surname"
@@ -103,7 +104,7 @@
               </div>
             </div>
             <div class="col-xl-3">
-              <label class="form-label">KM</label>
+              <label class="form-label">KM <span class="text-danger">*</span></label>
               <input
                 v-mask="'########'"
                 v-model="km"
@@ -134,7 +135,7 @@
           </div>
           <div class="row mb-xl-8">
             <div class="col-xl-6 w-50">
-              <label class="form-label">Email</label>
+              <label class="form-label">Email <span class="text-danger">*</span></label>
               <input
                 type="text"
                 v-model="kullanici_mail"
@@ -240,81 +241,100 @@
             </ul>
 
             <div class="tab-content" id="myTabContent">
-              <div
-                class="tab-pane fade show active"
-                id="kt_tab_pane_1"
-                role="tabpanel"
-              >
-                <div class="row">
-                  <label class="form-label">
-                    Özellikler
-                    <span class="text-danger">*</span>
-                  </label>
-                  <div v-for="feat in features" :key="feat.id" class="col-xl-4">
-                    <label
-                      class="d-flex flex-column gap-2 p-3 rounded border cursor-pointer transition form-check form-check-custom form-check-warning form-check-solid form-check-sm mb-4 w-100"
-                      :for="'flexRadioLg' + feat.id"
-                      :class="{
-                        'bg-light-info border-info shadow-sm':
-                          seciliOzellikler.includes(feat),
-                        'border-secondary': !seciliOzellikler.includes(feat),
-                      }"
-                    >
-                      <!-- Checkbox ve metni -->
-                      <div class="d-flex align-items-center gap-2 w-100">
-                        <input
-                          class="form-check-input mt-0"
-                          type="checkbox"
-                          :id="'flexRadioLg' + feat.id"
-                          :value="feat"
-                          v-model="seciliOzellikler"
-                          @change="hesapla()"
-                        />
-                        <span class="fw-semibold small text-start">
-                          {{ feat.ozellik }} - {{ feat.islem_fiyat }} ₺
-                        </span>
-                      </div>
+  <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+    <div class="row">
+      <label class="form-label">
+        Özellikler
+        <span class="text-danger">*</span>
+      </label>
 
-                      <!-- Açıklama varsa göster -->
-                      <div
-                        v-if="feat.description"
-                        class="d-flex gap-2 align-items-start p-2 rounded bg-light-info border border-info w-100"
-                      >
-                        <i
-                          class="bi bi-info-circle-fill text-info fs-6 mt-1"
-                        ></i>
-                        <small class="text-muted lh-sm text-start">
-                          {{ feat.description }}
-                        </small>
-                      </div>
-                    </label>
+      <!-- Gruplanmış Özellikler -->
+      <div v-for="(group, groupName) in groupedFeatures" :key="groupName" class="mb-6">
+        <!-- Grup Başlığı -->
+        <h5 class="fw-bold text-primary mb-3">
+          {{ groupName || 'Diğer' }}
+        </h5>
 
-                    <!-- Sadece seçiliyse input görünsün -->
-                    <input
-                      v-if="seciliOzellikler.includes(feat)"
-                      type="text"
-                      v-model="ozelliklerJSON[feat.id]"
-                      class="form-control mb-4"
-                      placeholder="Açıklama"
-                    />
-                  </div>
-
-                  <span class="text-muted">
-                    *Birden fazla özellik seçilebilir. En az bir özellik
-                    seçilmelidir.
-                  </span>
-                  <div class="fv-plugins-message-container invalid-feedback">
-                    {{ this.errorMessage["ozellikler"] }}
-                  </div>
-                </div>
-                <span class="badge badge-lg badge-light-primary">
-                  Toplam Tutar:&nbsp;
-                  <span>
-                    {{ this.formatter.format(this.hesapSonucu.total_price) }} ₺
-                  </span>
+        <!-- Grup İçindeki Özellikler -->
+        <div class="row">
+          <div
+            v-for="feat in group"
+            :key="feat.id"
+            class="col-xl-4"
+          >
+            <label
+              class="d-flex flex-column gap-2 p-3 rounded border cursor-pointer transition form-check form-check-custom form-check-warning form-check-solid form-check-sm mb-4 w-100"
+              :for="'flexRadioLg' + feat.id"
+              :class="{
+                'bg-light-info border-info shadow-sm':
+                  seciliOzellikler.includes(feat),
+                'border-secondary': !seciliOzellikler.includes(feat),
+              }"
+            >
+              <!-- Checkbox ve metni -->
+              <div class="d-flex align-items-center gap-2 w-100">
+                <input
+                  class="form-check-input mt-0"
+                  type="checkbox"
+                  :id="'flexRadioLg' + feat.id"
+                  :value="feat"
+                  v-model="seciliOzellikler"
+                  @change="hesapla()"
+                />
+                <span class="fw-semibold small text-start">
+                  {{ feat.ozellik }} - {{ feat.islem_fiyat }} ₺
                 </span>
               </div>
-            </div>
+
+              <!-- Açıklama varsa göster -->
+              <div
+                v-if="feat.description"
+                class="d-flex gap-2 align-items-start p-2 rounded bg-light-info border border-info w-100"
+              >
+                <i class="bi bi-info-circle-fill text-info fs-6 mt-1"></i>
+                <small class="text-muted lh-sm text-start">
+                  {{ feat.description }}
+                </small>
+              </div>
+            </label>
+
+            <!-- Sadece seçiliyse input görünsün -->
+            <input
+              v-if="seciliOzellikler.includes(feat)"
+              type="text"
+              v-model="ozelliklerJSON[feat.id]"
+              class="form-control mb-4"
+              placeholder="Açıklama"
+            />
+
+            <!-- state false/null ise ayraç -->
+            <div
+              v-if="feat.state === false || feat.state === null"
+              class="my-3 border-top border-dashed"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Uyarılar -->
+      <span class="text-muted">
+        *Birden fazla özellik seçilebilir. En az bir özellik seçilmelidir.
+      </span>
+      <div class="fv-plugins-message-container invalid-feedback">
+        {{ this.errorMessage["ozellikler"] }}
+      </div>
+    </div>
+
+    <!-- Toplam Tutar -->
+    <span class="badge badge-lg badge-light-primary">
+      Toplam Tutar:&nbsp;
+      <span>
+        {{ this.formatter.format(this.hesapSonucu.total_price) }} ₺
+      </span>
+    </span>
+  </div>
+</div>
+
 
             <div class="separator border-primary my-10"></div>
             <div class="row mb-xl-8">
@@ -526,7 +546,7 @@
                       </div>
                       <div>
                         İndirim:
-                        <span class="badge badge-light-primary fs-3 my-1">
+                        <span class="badge badge-light-danger fs-3 my-1">
                           {{
                             this.formatter.format(
                               this.hesapSonucu.discount_amount
@@ -536,7 +556,7 @@
                       </div>
                       <div>
                         Ödenecek Tutar:
-                        <span class="badge badge-light-primary fs-3 my-1">
+                        <span class="badge badge-light-success fs-1 my-1">
                           {{
                             this.formatter.format(this.hesapSonucu.total_price)
                           }}₺
@@ -692,6 +712,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.data.data.message === 'fail.token') {
+            this.$store.dispatch("logout");
+          }
         })
         .finally(() => {
           this.loading = false;
@@ -961,5 +984,42 @@ export default {
     this.getOdemeYontemi();
   },
   watch: {},
+  computed: {
+  groupedFeatures() {
+    const groups = {};
+
+    // Gruplara ayır
+    (this.features || []).forEach((feat) => {
+      const groupName = feat.gruplar_id || "Diğer";
+      if (!groups[groupName]) {
+        groups[groupName] = [];
+      }
+      groups[groupName].push(feat);
+    });
+
+    // Grupları sırala
+    const sortedGroups = Object.entries(groups)
+      .map(([groupName, items]) => {
+        // Grup içindekileri sırala
+        items.sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
+
+        // Bu grubun en küçük sira değeri
+        const minSira = items.length > 0 ? (items[0].sira ?? Infinity) : Infinity;
+
+        return { groupName, items, minSira };
+      })
+      // Grupları minSira değerine göre sırala
+      .sort((a, b) => a.minSira - b.minSira);
+
+    // Tekrar kullanılabilir hale getir
+    const orderedGroups = {};
+    sortedGroups.forEach((g) => {
+      orderedGroups[g.groupName] = g.items;
+    });
+
+    return orderedGroups;
+  },
+}
+
 };
 </script>

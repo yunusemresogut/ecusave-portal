@@ -14,8 +14,8 @@
       <router-link to="/" class="d-flex align-items-center">
         <img
           alt="Logo"
-          src="../assets/media/icons/Logo-orta.png"
-          class="h-75px logo"
+          src="../assets/media/ecusavebeyaz.png"
+          class="h-25px logo"
         />
       </router-link>
     </div>

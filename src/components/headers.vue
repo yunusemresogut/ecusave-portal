@@ -38,7 +38,7 @@
           <router-link to="/" class="d-lg-none">
             <img
               alt="Logo"
-              src="../assets/media/icons/Logo-orjinal.png"
+              src="../assets/media/ecusavelogo.png"
               class="h-30px"
             />
           </router-link>
@@ -491,6 +491,12 @@ export default {
       this.$store.dispatch("logout");
     },
     darkLight() {
+  const overlay = document.getElementById('theme-black-overlay');
+  // Siyah overlay’i göster
+  overlay.classList.add('active');
+
+  // Biraz bekle (ör. 200ms) sonra tema değiştir
+  setTimeout(() => {
     this.theme = this.theme === "light" ? "dark" : "light";
     localStorage.setItem("theme", this.theme);
 
@@ -500,11 +506,20 @@ export default {
     if (this.theme === "light") {
       lightLink.disabled = false;
       darkLink.disabled = true;
+      document.body.classList.remove('dark-mode');
     } else {
       lightLink.disabled = true;
       darkLink.disabled = false;
+      document.body.classList.add('dark-mode');
     }
-  }
+
+    // Tema değiştikten sonra 200ms bekle ve overlay’i kaldır
+    setTimeout(() => {
+      overlay.classList.remove('active');
+    }, 300); // overlay’in kaybolma süresi
+  }, 300); // tema değişmeden önce overlay’in göründüğü süre
+}
+
   },
   mounted() {
     this.getTableData();
@@ -520,9 +535,11 @@ export default {
   if (this.theme === "light") {
     lightLink.disabled = false;
     darkLink.disabled = true;
+    document.body.classList.remove('dark-mode');
   } else {
     lightLink.disabled = true;
     darkLink.disabled = false;
+    document.body.classList.add('dark-mode');
   }
   },
 };

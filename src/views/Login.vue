@@ -10,8 +10,8 @@
           <router-link to="/login" class="mb-12">
             <img
               alt="Logo"
-              style="height: 212px"
-              src="../assets/media/icons/Logo-orjinal.png"
+              style="height: 80px"
+              src="../assets/media/ecusavebeyaz.png"
             />
           </router-link>
           <div
@@ -92,8 +92,8 @@
 export default {
   data() {
     return {
-      email: "test@bayi.com", // iletisim@omersavas.com
-      password: "123456Aa.", // omerSvsForti4326
+      email: "",
+      password: "",
       loading: false,
     };
   },

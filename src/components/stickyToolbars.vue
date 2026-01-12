@@ -42,9 +42,8 @@
       "
       >Bakiye Yükle</router-link
     >
-    <a
-      href="https://ecusave.com/yardim.html"
-      target="_blank"
+    <router-link
+      to="/destek"
       class="
         engage-purchase-link
         btn btn-color-gray-700
@@ -55,7 +54,7 @@
         shadow-sm
         rounded-top-0
       "
-      >Yardım</a
+      >Destek</router-link
     >
   </div>
 </template>

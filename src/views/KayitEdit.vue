@@ -77,7 +77,7 @@
           <h3 class="text-primary mb-xl-8">Müşterinin Ruhsat Bilgileri</h3>
           <div class="row mb-xl-8">
             <div class="col-xl-3">
-              <label class="form-label">Ad</label>
+              <label class="form-label">Ad <span class="text-danger">*</span></label>
               <input
                 type="text"
                 v-model="name_basic"
@@ -90,7 +90,7 @@
               </div>
             </div>
             <div class="col-xl-3">
-              <label class="form-label">Soyad</label>
+              <label class="form-label">Soyad <span class="text-danger">*</span></label>
               <input
                 type="text"
                 v-model="surname"
@@ -103,7 +103,7 @@
               </div>
             </div>
             <div class="col-xl-3">
-              <label class="form-label">KM</label>
+              <label class="form-label">KM <span class="text-danger">*</span></label>
               <input
                 v-mask="'########'"
                 v-model="km"
@@ -134,7 +134,7 @@
           </div>
           <div class="row mb-xl-8">
             <div class="col-xl-6 w-50">
-              <label class="form-label">Email</label>
+              <label class="form-label">Email <span class="text-danger">*</span></label>
               <input
                 type="text"
                 v-model="kullanici_mail"
@@ -784,6 +784,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.data.data.message === 'fail.token') {
+            this.$store.dispatch("logout");
+          }
         })
         .finally(() => {
           this.loading = false;
